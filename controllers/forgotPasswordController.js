@@ -2,6 +2,7 @@
 import User from '../models/User.js';
 import { resetPasswordTemplate } from '../utils/emailTemplates/resetPasswordTemplate.js';
 import sendEmail from '../utils/sendEmail.js';
+import { resetPasswordTemplate } from '../utils/emailTemplates/resetPasswordTemplate.js';
 import crypto from 'crypto';
 
 function generateOTP() {
@@ -21,7 +22,10 @@ export const forgotPassword = async (req, res, next) => {
   user.resetPasswordOTPExpiry = otpExpiry;
   await user.save();
 
-  const html = resetPasswordTemplate({ name: user.name, otp });
+  const html = resetPasswordTemplate({
+    name: user.name,
+    otp
+});
 
   await sendEmail({
     to: user.email,
@@ -60,6 +64,10 @@ export const changePassword = async (req, res, next) => {
   user.password = newPassword;
   user.resetPasswordOTP = undefined;
   user.resetPasswordOTPExpiry = undefined;
+  if(user.ispasswordChanged === false){
+    user.ispasswordChanged = true;
+  }
+ 
   await user.save();
   res.status(200).json({ message: 'Password changed successfully.' });
 };

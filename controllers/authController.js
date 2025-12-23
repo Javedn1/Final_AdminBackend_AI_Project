@@ -65,7 +65,7 @@ export const getUserMe = asyncHandler(async (req, res) => {
 
 // helper 
 const sendTokenResponse = (user, statusCode, res) => {
-  const payload = { id: user._id, role: user.role };
+  const payload = { id: user._id, role: user.role  };
   const token = jwt.sign(payload, config.jwtSecret, { expiresIn: config.jwtExpire });
 
   // option: set httpOnly cookie
@@ -80,11 +80,7 @@ const sendTokenResponse = (user, statusCode, res) => {
   res
     .status(statusCode)
     .cookie('token', token, options)
-    .json({ 
-      success: true,
-      user: userObj, 
-      token 
-    });
+    .json({ success: true, token, user });
 };
 
 // @desc    Fetch company from external DB and save to local DB
