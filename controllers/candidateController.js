@@ -1,4 +1,4 @@
-import Candidate from "../models/Candidate.js";
+import Candidate from "../models/candidate.js";
 import sendEmail from '../utils/sendEmail.js';
 import { bulkJDInviteTemplate } from '../utils/emailTemplates/bulkJDInviteTemplate.js';
 /**
